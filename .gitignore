@@ -10,3 +10,20 @@
 *.lai
 *.la
 *.a
+*.lo
+
+# Compiled Binary files
+test.out*
+
+# Cscope files
+*.out
+*.files
+
+# Ctags files
+tags
+tag
+
+# Other files
+.dep*
+.lib*
+
