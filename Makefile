@@ -1,6 +1,6 @@
 JSON_C_DIR=/usr/local/Cellar/json-c/0.9
-#DEBUG := -DSAMUEL_DEBUG
-DEBUG := 
+DEBUG := -DSAMUEL_DEBUG
+#DEBUG := 
 CFLAGS += -ggdb -Wall $(DEBUG)
 LDFLAGS+= -lssl -loauth -lcurl 
 CFLAGS += -I$(JSON_C_DIR)/include/json

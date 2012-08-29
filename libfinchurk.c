@@ -2,8 +2,7 @@
 static const char* plurk_url = "http://www.plurk.com/";
 static const char* plurk_uri_request = "OAuth/request_token";
 static const char* plurk_uri_access = "OAuth/access_token";
-static const char* plurk_uri_verification = 
-                   "http://www.plurk.com/OAuth/authorize?oauth_token=";
+static const char* plurk_uri_verification = "http://www.plurk.com/OAuth/authorize?oauth_token=";
 
 inline static char* s_concate(const char**, const char**); 
 inline static int get_keysecret(const char*, char**, char**);
@@ -58,8 +57,6 @@ inline static int get_response_token(char* req_key,
                                      char** res_secret){
     int fail = 0;
     char *request_token_uri = s_concate(&(plurk_url), &(plurk_uri_request));
-    const char *req_c_key = req_key;
-    const char *req_c_secret = req_secret;
 
     char *postarg = NULL;
     char *req_url;
@@ -70,8 +67,8 @@ inline static int get_response_token(char* req_key,
               &postarg,           // postarg
               OA_HMAC,            // OAuthMethod
               "POST",             // HTTPMethod
-              req_c_key,          // customer key
-              req_c_secret,       // customer secret
+              req_key,          // customer key
+              req_secret,       // customer secret
               NULL,               // token key
               NULL);              // token secret
 
@@ -103,8 +100,6 @@ inline static int get_access_token(char* req_key,
     
     int fail = 0;
     char *request_token_uri = s_concate(&(plurk_url), &(plurk_uri_access));
-    const char *req_c_key = req_key;
-    const char *req_c_secret = req_secret;
 
     char *postarg = NULL;
     char *req_url;
@@ -121,8 +116,8 @@ inline static int get_access_token(char* req_key,
     //        &postarg,                            // char **postarg 
     //        OA_HMAC,                             // OAuthMethod method
     //        "POST",                              // const char *http_method
-    //        req_c_key,                           // const char *c_key
-    //        req_c_secret,                        // const char *c_secret
+    //        req_key,                           // const char *key
+    //        req_secret,                        // const char *secret
     //        res_t_key,                        // const char *t_key
     //        res_t_secret                        // char *t_secret
     //        );
@@ -142,7 +137,7 @@ inline static int get_access_token(char* req_key,
             printf("SAMUEL_DEBUG, before add:\n%d:%s\n", i, argv[i]);
     }
 #endif
-    // the most important step here!!
+    // the most important step here!! add parameter
     oauth_add_param_to_array(&argc, &argv, verifier_perm);
 
 #if SAMUEL_DEBUG
@@ -158,15 +153,15 @@ inline static int get_access_token(char* req_key,
             NULL, //< postargs (unused)
             OA_HMAC,
             "GET", //< HTTP method (defaults to "GET")
-            req_c_key, req_c_secret,//NULL, NULL);
+            req_key, req_secret,//NULL, NULL);
             *res_key, *res_secret);
 
     req_hdr = oauth_serialize_url_sep(argc, 1, argv, ", ", 6);
     req_url = oauth_serialize_url_sep(argc, 0, argv, "&", 1);
     oauth_free_array(&argc, &argv);
 #if SAMUEL_DEBUG
-    printf("samuel, req_hdr: %s\n",req_hdr);
-    printf("samuel, req_url: %s\n",req_url);
+    printf("SAMUEL_DEBUG, req_hdr: %s\n",req_hdr);
+    printf("SAMUEL_DEBUG, req_url: %s\n",req_url);
 #endif
     http_hdr = malloc(strlen(req_hdr) + 100);
     memset(http_hdr,0,100);
@@ -182,7 +177,7 @@ inline static int get_access_token(char* req_key,
     reply = oauth_http_get2(req_url,postarg,http_hdr);
 
     if(!reply){
-        printf("samuel, QQ>>>  HTTP request for an oauth request-token failed.\n");
+        printf("SAMUEL_DEBUG, HTTP request for an oauth request-token failed.\n");
         return (fail = 1);
     }
     else 
@@ -209,7 +204,7 @@ inline static int get_verifier(char* req_key,
                                char* res_secret,
                                char** verifier){
     *verifier = malloc(sizeof(char) * 8);
-    printf("verification link:\n%s%s\n", plurk_uri_verification, res_key);
+    printf("verification link:\n '%s%s' \n", plurk_uri_verification, res_key);
     memset(*verifier, '\0', 8);
     scanf("%s",*verifier);
     // print the verification url 

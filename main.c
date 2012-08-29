@@ -3,11 +3,12 @@
 
 key_pair request;
 key_pair permanent;
-permanent.key = NULL;
-permanent.secret = NULL;
-
 int main(int argc, char const* argv[])
 {
+    permanent.key = NULL;
+    permanent.secret = NULL;
+
+
     // input api key/secret
     request.key = strndup(argv[1],strlen(argv[1]));
     request.secret = strndup(argv[2],strlen(argv[2]));
