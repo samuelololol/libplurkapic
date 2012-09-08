@@ -6,11 +6,11 @@ LDFLAGS+= -lssl -loauth -lcurl
 CFLAGS += -I$(JSON_C_DIR)/include/json
 LDFLAGS+= -L$(JSON_C_DIR)/lib -ljson
 
-all: libfinchurk.o main.o
-	gcc $(CFLAGS) $(LDFLAGS) -o test.out main.o libfinchurk.o
+all: libplurkapic.o main.o
+	gcc $(CFLAGS) $(LDFLAGS) -o test.out main.o libplurkapic.o
 
-libfinchurk.o: libfinchurk.c
-	gcc $(CFLAGS) $(LDFLAGS) -o libfinchurk.o -c libfinchurk.c
+libplurkapic.o: libplurkapic.c
+	gcc $(CFLAGS) $(LDFLAGS) -o libplurkapic.o -c libplurkapic.c
 
 main.o: main.o
 	gcc $(CFLAGS) -o main.o -c main.c

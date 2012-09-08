@@ -1,5 +1,5 @@
-#ifndef __LIBFINCHURK_H__
-#define __LIBFINCHURK_H__
+#ifndef __LIBPLURKAPIC_H__
+#define __LIBPLURKAPIC_H__
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

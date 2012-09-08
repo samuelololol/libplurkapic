@@ -1,4 +1,4 @@
-#include "libfinchurk.h"
+#include "libplurkapic.h"
 static const char* plurk_url = "http://www.plurk.com/";
 static const char* plurk_uri_request = "OAuth/request_token";
 static const char* plurk_uri_access = "OAuth/access_token";

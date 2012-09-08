@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "libfinchurk.h"
+#include "libplurkapic.h"
 
 key_pair request;
 key_pair permanent;
