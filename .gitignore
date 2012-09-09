@@ -27,3 +27,5 @@ tag
 .dep*
 .lib*
 
+# doc
+docs*

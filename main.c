@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "libplurkapic.h"
+#include "libplurkapic.h"<`0`>
 
 key_pair request;
 key_pair permanent;

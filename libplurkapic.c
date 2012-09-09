@@ -10,6 +10,14 @@ inline static int get_response_token(char*, char*, char**, char**);
 inline static int get_verifier(char*, char*, char*, char*, char**);
 inline static int get_access_token(char*, char*, char**, char**, char*);
 
+/**
+ * @brief string concate
+ *
+ * @param p1 address of string1
+ * @param p2 address of string2
+ *
+ * @return address of newstring
+ */
 inline static char* s_concate(const char** p1, const char** p2)
 {
     size_t len1 = strlen(*p1);
@@ -23,6 +31,15 @@ inline static char* s_concate(const char** p1, const char** p2)
     return newstring;
 }
 
+/**
+ * @brief static function for parse the key/secret info from raw data
+ *
+ * @param raw raw data
+ * @param key key
+ * @param secret secret
+ *
+ * @return error on 1
+ */
 inline static int get_keysecret(const char* raw, 
                                 char** key,
                                 char** secret){
@@ -51,6 +68,16 @@ inline static int get_keysecret(const char* raw,
     return 0;
 }
 
+/**
+ * @brief Use API key/secret to retrive the resonse key/secret
+ *
+ * @param req_key API key
+ * @param req_secret API secret key
+ * @param res_key the address of the response key
+ * @param res_secret the address of the response secret key
+ *
+ * @return error on 1
+ */
 inline static int get_response_token(char* req_key, 
                                      char* req_secret,
                                      char** res_key, 
@@ -92,6 +119,18 @@ inline static int get_response_token(char* req_key,
 }
 
 
+/**
+ * @brief Use API, response key key pairs and verification code 
+ * to retrive the permanent key pair
+ *
+ * @param req_key API key
+ * @param req_secret API secret key
+ * @param res_key the address of the response key
+ * @param res_secret the address of the response secret key
+ * @param verifier verification code
+ *
+ * @return error on 1
+ */
 inline static int get_access_token(char* req_key, 
                                    char* req_secret,
                                    char** res_key, 
@@ -198,6 +237,18 @@ inline static int get_access_token(char* req_key,
     return fail;
 }
 
+/**
+ * @brief Use API key pair and response key pair to generate the link to
+ * authorize page to retrive the verification code
+ *
+ * @param req_key API key
+ * @param req_secret API secret key
+ * @param res_key response key
+ * @param res_secret response secret key
+ * @param verifier the address of the verification code
+ *
+ * @return error on 1
+ */
 inline static int get_verifier(char* req_key,
                                char* req_secret,
                                char* res_key, 
@@ -207,29 +258,44 @@ inline static int get_verifier(char* req_key,
     printf("verification link:\n '%s%s' \n", plurk_uri_verification, res_key);
     memset(*verifier, '\0', 8);
     scanf("%s",*verifier);
-    // print the verification url 
     return 0;
 }
 
-
-// init function: get req_key and prepare the key storage
-// argument1: the address of variables storing the API key/secret
-// argument2: the address of variables will storing the final access token
+/**
+ * @brief Use given API key to get the permanent key pair as the 
+ * initialization step of plurk
+ *
+ * @param req the address of API key pair
+ * @param permanent the address of permanent key pair
+ *
+ * @return error on 1
+ */
 int plurk_init(key_pair* req, key_pair* permanent){
-    // prepare the varible for storing
+
+    // prepare for response key
     key_pair* tmp = malloc(sizeof(key_pair));
     tmp->key = NULL;
     tmp->secret = NULL;
+
+    // prepare for authorize verified code
     char* verifier_code = malloc(sizeof(char) * 8);
 
     // OAuth prcess procedure
+    // 1. get response key
+    // 2. get the verifier code
+    // 3. get the permanent access key
     get_response_token(req->key, req->secret, &(tmp->key), &(tmp->secret));
     get_verifier(req->key, req->secret, tmp->key, tmp->secret, &verifier_code);
     get_access_token(req->key, req->secret, &(tmp->key), &(tmp->secret),
                      verifier_code);
 
-    // store the key/secret information 
+    // store the permanent key/secret 
     permanent->key = tmp->key;
     permanent->secret = tmp->secret;
+
+    // free the dynamic allocated space
+    free(verifier_code);
+    free(tmp->key);
+    free(tmp->secret);
     return 0;
 }
