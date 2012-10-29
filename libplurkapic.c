@@ -23,7 +23,7 @@ inline static char* s_concate(const char** p1, const char** p2)
     size_t len1 = strlen(*p1);
     size_t len2 = strlen(*p2);
     size_t lennew = len1 + len2;
-    char** newstring = malloc(sizeof(char) * (lennew + 1));
+    char* newstring = malloc(sizeof(char) * (lennew + 1));
     memset(newstring, '\0', lennew + 1);
 
     newstring = strncpy(newstring, *p1, len1);
@@ -42,7 +42,8 @@ inline static char* s_concate(const char** p1, const char** p2)
  */
 inline static int get_keysecret(const char* raw, 
                                 char** key,
-                                char** secret){
+                                char** secret)
+{
     int rc;
     char **rv = NULL;
     if (*key) free(*key);
@@ -64,7 +65,6 @@ inline static int get_keysecret(const char* raw,
 #endif
     }
     if(rv) free(rv);
-
     return 0;
 }
 
@@ -94,8 +94,8 @@ inline static int get_response_token(char* req_key,
               &postarg,           // postarg
               OA_HMAC,            // OAuthMethod
               "POST",             // HTTPMethod
-              req_key,          // customer key
-              req_secret,       // customer secret
+              req_key,            // customer key
+              req_secret,         // customer secret
               NULL,               // token key
               NULL);              // token secret
 
@@ -106,6 +106,7 @@ inline static int get_response_token(char* req_key,
     }
     else 
         fail = get_keysecret(reply, res_key, res_secret);
+    
 #if SAMUEL_DEBUG
     printf("SAMUEL_DEBUG, res_key: '%s'\t res_secret: '%s'\n", *res_key, *res_secret);
 #endif
@@ -120,8 +121,8 @@ inline static int get_response_token(char* req_key,
 
 
 /**
- * @brief Use API, response key key pairs and verification code 
- * to retrive the permanent key pair
+ * @brief Use API key, response key-pair and verification code 
+ * to retrive the permanent key-pair
  *
  * @param req_key API key
  * @param req_secret API secret key
@@ -164,29 +165,24 @@ inline static int get_access_token(char* req_key,
     // example edited from: 
     // http://liboauth.sourceforge.net/tests_2oauthtest2_8c-example.html#a0
     int argc=0;
+    int i;
     char **argv=NULL;
     char *req_hdr = NULL;
     char *http_hdr= NULL;
 
     argc = oauth_split_url_parameters(request_token_uri, &argv);
 #if SAMUEL_DEBUG
-    if (1) {
-        int i;
-        for (i=0;i<argc; i++)
-            printf("SAMUEL_DEBUG, before add:\n%d:%s\n", i, argv[i]);
-    }
+    for (i=0;i<argc; i++)
+        printf("SAMUEL_DEBUG, before add params to array:\n%d:%s\n",i,argv[i]);
 #endif
+
     // the most important step here!! add parameter
     oauth_add_param_to_array(&argc, &argv, verifier_perm);
 
 #if SAMUEL_DEBUG
-    if (1) {
-        int i;
-        for (i=0;i<argc; i++)
-            printf("SAMUEL_DEBUG, after add:\n%d:%s\n", i, argv[i]);
-    }
+    for (i=0;i<argc; i++)
+        printf("SAMUEL_DEBUG, after added params to arrag:\n%d:%s\n",i,argv[i]);
 #endif
-
 
     oauth_sign_array2_process(&argc, &argv,
             NULL, //< postargs (unused)
@@ -223,6 +219,7 @@ inline static int get_access_token(char* req_key,
         fail = get_keysecret(reply, res_key, res_secret);
 #if SAMUEL_DEBUG
     printf("SAMUEL_DEBUG, res_key: '%s'\t res_secret: '%s'\n", *res_key, *res_secret);
+    printf("Samuel_DEBUG, final %x\n",res_key);
 #endif
 
 
@@ -295,7 +292,8 @@ int plurk_init(key_pair* req, key_pair* permanent){
 
     // free the dynamic allocated space
     free(verifier_code);
-    free(tmp->key);
-    free(tmp->secret);
+
+    //free(tmp->key);      // << save for outer, no free
+    //free(tmp->secret);   // << save for outer, no free
     return 0;
 }

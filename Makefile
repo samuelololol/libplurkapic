@@ -8,7 +8,7 @@ LDFLAGS+= -L$(JSON_C_DIR)/lib -ljson
 
 all: libplurkapic.o main.o
 	gcc $(CFLAGS) $(LDFLAGS) -o test.out main.o libplurkapic.o
-	doxygen Doxygen
+	#doxygen Doxygen
 
 libplurkapic.o: libplurkapic.c
 	gcc $(CFLAGS) -o libplurkapic.o -c libplurkapic.c
