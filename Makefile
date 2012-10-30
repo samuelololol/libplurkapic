@@ -16,5 +16,8 @@ libplurkapic.o: libplurkapic.c
 main.o: main.c
 	gcc $(CFLAGS) -o main.o -c main.c
 	
+vercode: vercode.c
+	gcc $(CFLAGS) $(LDFLAGS) $^ -o vercode
+
 clean:
-	rm -rf *.o test.out docs
+	rm -rf *.o test.out docs vercode

@@ -1,0 +1,116 @@
+HTTP/1.1 302 FOUND
+Server: nginx/1.0.5
+Date: Tue, 30 Oct 2012 02:00:08 GMT
+Content-Type: text/html
+Transfer-Encoding: chunked
+Connection: close
+Location: http://www.plurk.com/Users/showLogin?help_text=Please login before you can authorize the application access&login_return_url=/OAuth/authorize%3Foauth_token%3DReqgLDnjDuFP%26deviceid%3D
+Expires: Tue, 30 Oct 2012 02:00:07 GMT
+Cache-Control: no-cache
+Cache-Control: no-cache
+Pragma: no-cache
+
+HTTP/1.1 200 OK
+Server: nginx/1.0.5
+Date: Tue, 30 Oct 2012 02:00:09 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: close
+Set-Cookie: plurkcookiea="8pxaQmb2vmfe40EfhWFYH72vFz8=?login_return_url=Vi9PQXV0aC9hdXRob3JpemU/b2F1dGhfdG9rZW49UmVxZ0xEbmpEdUZQJmRldmljZWlkPQpwMQou"; Domain=.plurk.com; expires=Tue, 13-Nov-2012 02:00:09 GMT; Max-Age=1209600; Path=/
+Expires: Tue, 30 Oct 2012 02:00:08 GMT
+Cache-Control: no-cache
+Cache-Control: no-cache
+Pragma: no-cache
+
+<!DOCTYPE html>
+<html lang="en"> <head> <meta charset="utf-8"> <meta name="verify-v1" content="iBRwaQ/3d4NoF1uaa2SAfCJ962ORry1TE8/4XxtIbHk=" /> <script type="text/javascript">
+if(window != top && window.location.toString().indexOf("/_comet/") == -1) {
+    //Inside an iframe
+    top.location.href = location.href;
+}
+</script> <title>Your life, on the line - Plurk.com</title> <!-- jQuery --> <!--<script src="http://localhost/jquery-specialpower.js"></script>--> <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> <script>window.jQuery || document.write('<script type="text/javascript" src="http://statics.plurk.com/175a062a68eeb6ce325bec758173cc1d.js?"><\/script>')</script> <script type="text/javascript">
+    jQuery.noConflict();
+</script> <link rel="shortcut icon" type="image/png" href="http://statics.plurk.com/b872d9e40dbce69e5cde4787ccb74e60.png" /> <!--[if lt IE 9]><!-- html5shiv enable html5 elements style --> <script src="http://statics.plurk.com/86f2083719d8c298b5578bf577b28c2c.js"></script> <![endif]--> <script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-53436-7']);
+_gaq.push(['_setAllowAnchor', true]);
+_gaq.push(['_trackPageLoadTime']);
+
+_gaq.push(['_setCustomVar', 4, 'userinfo', 'non-member', 3]);
+_gaq.push(['_setCustomVar', 5, 'language', 'en', 3]);
+_gaq.push(['_trackPageview']);
+
+/*<![CDATA[*/
+
+        function $static_path(path) { return 'http://assets.plurk.com' + path; }
+
+window.LANG = 'en';
+
+var GLOBAL = {"page_user": null, "session_user": null}
+/*]]>*/
+</script> <script type="text/javascript" src="http://statics.plurk.com/32fa67dd43ba606bebd2798a27a049fc.js?"></script> <link rel="stylesheet" type="text/css" href="http://statics.plurk.com/c081f16e810ac5bc7a34333b309271f9.css?" /> <script type="text/javascript" src="http://statics.plurk.com/58b38faa0ac23dc6ec215eff417f9919.js?"></script> <link rel="stylesheet" type="text/css" href="http://statics.plurk.com/990b4db54413d22857802881141f186a.css?" /> <script type="text/javascript" src="http://statics.plurk.com/286fc2f089c758211e54b08d8e813e2a.js?"></script> <link rel="stylesheet" type="text/css" href="http://statics.plurk.com/213616523e902b171f56fd8f4728118f.css?" /> <script type="text/javascript" src="http://statics.plurk.com/faee227849385bb67d0351b38cc52b80.js?"></script> </head> <body class="html5"> <div id="top_login" style="visibility: hidden"> <div id="top_login_button"> <a href="/Settings/showAccount" id="account" onclick="return Misc.promoteTab(this.href);"></a> <a href="/Users/showLogin" id="login_link">Sign in</a> </div> <a href="/Users/showRegister" id="sign_up_small">Register your plurk account for free &raquo;</a> </div> <div id="timeline_holder"> <h1 id="logo"><a href="/"><span>Plurk is a <strong>social journal</strong> for your life</span><img src="http://statics.plurk.com/6118c0d49e866f930e6995a6e951d27f.png" /><br /><img style="margin:-10px 0 0 -40px" src="http://statics.plurk.com/f4c3b981a09c1e932ad9e9e5ec691feb.png" alt="Plurk" /></a></h1> <div id="timeline"> <div id="timeline-secondary-content"> <div id="register" class="content_inner"> <h2>Plurk sign in</h2> <div id="changed" style="background-color: #ffffcc"> </div> <form action="https://www.plurk.com/Users/login" method="post"> <table> <tr> <th>Nickname or email:</th> <td><input style="width:200px" type="text" name="nick_name" value="" id="first"/></td> <script>
+                    AJS.$('first').focus();
+                </script> </tr> <tr> <th>Password:</th> <td><input style="width:200px" type="password" name="password" /></td> </tr> <tr> <th></th> <td class="es">
+                Your login will be remembered for 14 days (or until logout).
+                </td> </tr> <tr> <th></th> <td class="es"> <input type="hidden" name="login_token" value="7feceb99c04eb1d96cf21e6f9b428edb@mcoo89" /> <input type="hidden" name="logintoken" value="1" /> <input class="orange-but" type="submit" value="Login" />
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <a href="/resetPassword" onclick="return GB_showCenter(_('Reset password'), this.href, 200, 440);">Forgot password?</a><br /> </td> </tr> </table> </form> <script>
+        if(window != top) {
+            var cur_loc = window.location;
+            top.location = cur_loc.pathname + cur_loc.search;
+        }
+    </script> </div> </div> </div> </div> <div id="dashboard_holder"> </div> <footer> <div id="footer"> <ul> <li class="copyright">Copyright &copy; 2007-2012</li> <li><a href="/?window=/Settings/showPlurkMobile">Mobile Apps</a></li> <li><a href="/search">Plurk Search</a></li> <li><a href="/user_search" target="_blank">People Search</a></li> <li><a href="/Verified/">Verified Account</a></li> <li><a href="/API">API</a><a href="/faq">FAQ</a></li> <li><a href="/contact">Contact Us</a></li> <li><a href="/aboutUs">About</a></li> <li><a href="http://blog.plurk.com/">Blog</a></li> <!--
+        <li><a href="/jobs">Jobs</a></li>
+--> <li><a href="/terms">Terms</a></li> <li><a href="/privacy">Privacy</a> </li> </ul> <div id="languge_selector"> <form action="http://www.plurk.com/changeLanguage" method="post" name="lang_form"> <input type="hidden" value="" name="from_page" id="lang_from_page" />
+
+    Language:
+    <select name="language" onchange="document.getElementById('lang_from_page').value = window.location.href; document.lang_form.submit()"> <option value="en" selected="selected">English</option> <option value="zh_Hant" >中文 (繁體)</option> <option value="zh_Hant_HK" >中文 (香港)</option> <option value="zh_CN" >中文 (简体)</option> <option value="fil" >Filipino</option> <option value="id" >Bahasa Indonesia</option> <option value="ms" >Bahasa Melayu</option> <option value="ar" >العربية</option> <option value="ca" >Català</option> <option value="cs" >Čeština</option> <option value="da" >Dansk</option> <option value="de" >Deutsch</option> <option value="el" >Ελληνικά</option> <option value="es" >Español</option> <option value="fa" >فارسی</option> <option value="fi" >Suomi</option> <option value="fr" >Français</option> <option value="ga" >Gaeilge</option> <option value="hi" >Hindi</option> <option value="he" >עברית</option> <option value="hr" >Hrvatski</option> <option value="hu" >Magyar</option> <option value="it" >Italiano</option> <option value="ja" >日本語</option> <option value="nb" >Norsk bokmål</option> <option value="nl" >Nederlands</option> <option value="ko" >한국어</option> <option value="pl" >Polski</option> <option value="pt_BR" >Português (Brasil)</option> <option value="ro" >Română</option> <option value="ru" >Pусский</option> <option value="sk" >Slovenský</option> <option value="sv" >Svenska</option> <option value="tr" >Türkçe</option> <option value="uk" >українська</option> <option value="th" >ไทย</option> <option value="help">Help us translate Plurk!</option> </select> </form> </div> <div class="clear">&nbsp;</div> </div> </footer> <script type="text/javascript">
+    if(window.SiteState){
+        SiteState.updateLoginLink();
+    }
+	else {
+        if(window.AJS && AJS.$('top_login')){
+            AJS.setStyle(AJS.$('top_login'), {visibility: 'visible'});
+    	}
+	}
+
+    window.FeatureManager = {
+        features: {
+            'EmoticonManager': false,
+            'DesignerUsername': false,
+            'PlurksLocation': false,
+            'dummy': true
+        },
+        isAvailable: function(feature) {
+            return !!window.FeatureManager.features[feature];
+        }
+    };
+</script> <script type="text/javascript">
+    TopBar.init();
+</script> <style>
+        #top_login {
+            height: 20px;
+        }
+        #top_login_button {
+            display: inline-block;
+        }
+        #sign_up_small {
+            margin-right: 0;
+            padding: 3px 10px;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    </style> <script type="text/javascript">
+(function() {
+var ga = document.createElement('script');
+ga.src = ('https:' == document.location.protocol ?
+    'https://ssl' : 'http://www') +
+    '.google-analytics.com/ga.js';
+ga.setAttribute('async', 'true');
+document.documentElement.firstChild.appendChild(ga);
+})();
+</script> </body> </html>
