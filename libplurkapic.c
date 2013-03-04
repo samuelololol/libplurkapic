@@ -172,22 +172,25 @@ inline static int get_access_token(char* req_key,
 
     argc = oauth_split_url_parameters(request_token_uri, &argv);
 #if SAMUEL_DEBUG
+    printf("SAMUEL_DEBUG, before add parameters to array\n");
     for (i=0;i<argc; i++)
-        printf("SAMUEL_DEBUG, before add params to array:\n%d:%s\n",i,argv[i]);
+        printf("%d:%s\n",i,argv[i]);
 #endif
 
     // the most important step here!! add parameter
     oauth_add_param_to_array(&argc, &argv, verifier_perm);
 
 #if SAMUEL_DEBUG
+    printf("====\nSAMUEL_DEBUG, after add parameters to array\n");
     for (i=0;i<argc; i++)
-        printf("SAMUEL_DEBUG, after added params to arrag:\n%d:%s\n",i,argv[i]);
+        printf("%d:%s\n",i,argv[i]);
 #endif
 
+    //do something important here??
     oauth_sign_array2_process(&argc, &argv,
             NULL, //< postargs (unused)
             OA_HMAC,
-            "GET", //< HTTP method (defaults to "GET")
+            "POST", //< HTTP method (defaults to "GET")
             req_key, req_secret,//NULL, NULL);
             *res_key, *res_secret);
 
@@ -207,9 +210,9 @@ inline static int get_access_token(char* req_key,
 #endif
 
     // POST HTTPMethod
-    //reply = oauth_http_post2(req_url,postarg,http_hdr);
+    reply = oauth_http_post2(req_url,&postarg,http_hdr);
     // GET HTTPMethod
-    reply = oauth_http_get2(req_url,postarg,http_hdr);
+    //reply = oauth_http_get2(req_url,postarg,http_hdr);
 
     if(!reply){
         printf("SAMUEL_DEBUG, HTTP request for an oauth request-token failed.\n");
@@ -220,6 +223,7 @@ inline static int get_access_token(char* req_key,
 #if SAMUEL_DEBUG
     printf("SAMUEL_DEBUG, res_key: '%s'\t res_secret: '%s'\n", *res_key, *res_secret);
     printf("Samuel_DEBUG, final %x\n",res_key);
+    printf("SAMUEL_DEBUG, postarg: %s\n",postarg);
 #endif
 
 
