@@ -1,5 +1,2 @@
-verification code
-1. login, get session
-2. use session to "http://www.plurk.com/OAuth/authorize"
-3. verification
-4. get the verification code
+1. handle the space or special char in content
+2. complete the plurk api
