@@ -1,8 +1,10 @@
 #include "libplurkapic.h"
-static const char* plurk_url = "http://www.plurk.com/";
-static const char* plurk_uri_request = "OAuth/request_token";
-static const char* plurk_uri_access = "OAuth/access_token";
-static const char* plurk_uri_verification = "http://www.plurk.com/OAuth/authorize?oauth_token=";
+const char* plurk_url = "http://www.plurk.com/";
+const char* plurk_uri_request = "OAuth/request_token";
+const char* plurk_uri_access = "OAuth/access_token";
+const char* plurk_uri_verification = "http://www.plurk.com/OAuth/authorize?oauth_token=";
+const char* plurk_uri_post = "APP/Timeline/plurkAdd";
+
 
 inline static char* s_concate(const char**, const char**); 
 inline static int get_keysecret(const char*, char**, char**);
@@ -22,9 +24,9 @@ inline static char* s_concate(const char** p1, const char** p2)
 {
     size_t len1 = strlen(*p1);
     size_t len2 = strlen(*p2);
-    size_t lennew = len1 + len2;
-    char* newstring = malloc(sizeof(char) * (lennew + 1));
-    memset(newstring, '\0', lennew + 1);
+    size_t len_newstring = len1 + len2;
+    char* newstring = malloc(sizeof(char) * (len_newstring + 1));
+    memset(newstring, '\0', len_newstring + 1);
 
     newstring = strncpy(newstring, *p1, len1);
     newstring = strncat(newstring, *p2, len2);
@@ -299,5 +301,89 @@ int plurk_init(key_pair* req, key_pair* permanent){
 
     //free(tmp->key);      // << save for outer, no free
     //free(tmp->secret);   // << save for outer, no free
+    return 0;
+}
+
+int plurk_post( key_pair* request
+               ,key_pair* permanent
+               ,const char* content
+               ,const char* qualifier)
+{
+    char* request_uri = s_concate(&(plurk_url), &(plurk_uri_request));
+    char* post_qualifier_hd = "qualifier=";
+    char* post_qualifier    = s_concate( &(post_qualifier_hd)
+                                        ,&(qualifier));
+    char* post_content_hd   = "content=";
+    char* post_content      = s_concate( &(post_content_hd)
+                                        ,&(content));
+    char* post_url = s_concate( &(plurk_url) ,&(plurk_uri_post));
+
+    int argc = 0;
+    int i = 0;
+    char** argv    = NULL;
+    char* req_hdr  = NULL;
+    char* req_url  = NULL;
+    char* http_hdr = NULL;
+    char* reply    = NULL;
+    char* postarg  = NULL;
+
+    argc = oauth_split_url_parameters(post_url, &argv);
+
+#if SAMUEL_DEBUG
+    printf("SAMUEL_DEBUG, before add parameters to array\n");
+    for (i=0;i<argc; i++)
+        printf("%d:%s\n",i,argv[i]);
+#endif
+    oauth_add_param_to_array(&argc, &argv, post_qualifier);
+    printf("SAMUEL_DEBUG, argc:%d\n", argc);
+    oauth_add_param_to_array(&argc, &argv, post_content);
+    printf("SAMUEL_DEBUG, argc:%d\n", argc);
+
+    free(post_qualifier);
+    free(post_content);
+#if SAMUEL_DEBUG
+    printf("SAMUEL_DEBUG, before add parameters to array\n");
+    for (i=0;i<argc; i++)
+        printf("%d:%s\n",i,argv[i]);
+#endif
+    oauth_sign_array2_process(&argc, &argv,
+            NULL, //< postargs (unused)
+            OA_HMAC,
+            "POST", //< HTTP method (defaults to "GET")
+            request->key, request->secret,//NULL, NULL);
+            permanent->key, permanent->secret);
+
+    req_hdr = oauth_serialize_url_sep(argc, 1, argv, ", ", 100);
+    req_url = oauth_serialize_url_sep(argc, 0, argv, "&", 1);
+    //req_url = request_token_uri;
+    oauth_free_array(&argc, &argv);
+#if SAMUEL_DEBUG
+    printf("SAMUEL_DEBUG, req_hdr: %s\n", req_hdr);
+    printf("SAMUEL_DEBUG, req_url: %s\n", req_url);
+#endif
+
+    http_hdr = malloc(strlen(req_hdr) + 200);
+    memset(http_hdr,0,100);
+    sprintf(http_hdr, "Authorization: OAuth realm=\"\", %s", req_hdr);
+
+#if SAMUEL_DEBUG
+    printf("request URL=%s\n", req_url);
+    printf("request header=%s\n\n", http_hdr);
+#endif
+
+    reply = oauth_http_post2(req_url, &postarg, http_hdr);
+    if(!reply){
+        printf("SAMUEL_DEBUG, HTTP request for an oauth request-token failed.\n");
+    }
+    else 
+        printf("SAMUEL_DEBUG, reply: %s\n", reply);
+
+    if (reply)    free(reply);
+    if (req_hdr)  free(req_hdr);
+    if (req_url)  free(req_url);
+    if (http_hdr) free(http_hdr);
+    if (postarg)  free(postarg);
+    if (post_url) free(post_url);
+
     return 0;
 }

@@ -13,6 +13,13 @@
 #include <oauth.h>
 #include <json/json.h>
 
+
+extern const char* plurk_url;
+extern const char* plurk_uri_request;
+extern const char* plurk_uri_access;
+extern const char* plurk_uri_verification;
+extern const char* plurk_uri_post; 
+
 /**
  * @brief key_pair, used to represent the key pair structure
  */
@@ -25,8 +32,15 @@ int plurk_init(key_pair* req, key_pair* permanent);
 
 // the following all are not done yet
 // int plurk_login(key_pair* permanent);
-int plurk_logout(key_pair* permanent);
-//int plurk_post(key_pair* permanent, const char* content, const char* qualifier);
-int plurk_api(key_pair* permanent,const char* content,const char* str);
+//int plurk_logout(key_pair* permanent);
+int plurk_post( key_pair* request
+               ,key_pair* permanent
+               ,const char* content
+               ,const char* qualifier);
+
+int plurk_api( key_pair* request
+              ,key_pair* permanent
+              ,const char* content
+              ,const char* str);
 
 #endif

@@ -1,3 +1,3 @@
 #!/bin/bash 
 HAHA=`date | awk '{print $4}'`
-./test.out $PKEY $PSECRET $HAHA
+ddd ./test.out $PKEY $PSECRET $HAHA
