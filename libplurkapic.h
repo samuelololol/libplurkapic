@@ -40,7 +40,9 @@ int plurk_post( key_pair* request
 
 int plurk_api( key_pair* request
               ,key_pair* permanent
-              ,const char* content
-              ,const char* str);
+              ,const char* api_uri
+              ,const char* invoke_method
+              ,int arg_count,
+              ...);
 
 #endif

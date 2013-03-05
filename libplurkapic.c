@@ -1,4 +1,5 @@
 #include "libplurkapic.h"
+#include <stdarg.h>
 const char* plurk_url = "http://www.plurk.com/";
 const char* plurk_uri_request = "OAuth/request_token";
 const char* plurk_uri_access = "OAuth/access_token";
@@ -304,19 +305,25 @@ int plurk_init(key_pair* req, key_pair* permanent){
     return 0;
 }
 
-int plurk_post( key_pair* request
-               ,key_pair* permanent
-               ,const char* content
-               ,const char* qualifier)
+int plurk_api( key_pair* request
+              ,key_pair* permanent
+              ,const char* api_uri
+              ,const char* invoke_method
+              ,int arg_count, ...
+              )
 {
+
+
+
+
     char* request_uri = s_concate(&(plurk_url), &(plurk_uri_request));
-    char* post_qualifier_hd = "qualifier=";
-    char* post_qualifier    = s_concate( &(post_qualifier_hd)
-                                        ,&(qualifier));
-    char* post_content_hd   = "content=";
-    char* post_content      = s_concate( &(post_content_hd)
-                                        ,&(content));
-    char* post_url = s_concate( &(plurk_url) ,&(plurk_uri_post));
+    //char* post_qualifier_hd = "qualifier=";
+    //char* post_qualifier    = s_concate( &(post_qualifier_hd)
+    //                                    ,&(qualifier));
+    //char* post_content_hd   = "content=";
+    //char* post_content      = s_concate( &(post_content_hd)
+    //                                    ,&(content));
+    char* post_url = s_concate( &(plurk_url) ,&(api_uri));
 
     int argc = 0;
     int i = 0;
@@ -334,13 +341,21 @@ int plurk_post( key_pair* request
     for (i=0;i<argc; i++)
         printf("%d:%s\n",i,argv[i]);
 #endif
-    oauth_add_param_to_array(&argc, &argv, post_qualifier);
-    printf("SAMUEL_DEBUG, argc:%d\n", argc);
-    oauth_add_param_to_array(&argc, &argv, post_content);
-    printf("SAMUEL_DEBUG, argc:%d\n", argc);
+    
+    int arg_index;
+    char* arg_from_valist;
+    va_list vaarg;
+    va_start(vaarg, arg_count);
+    for (arg_index = 0; arg_index < arg_count; arg_index++) {
+        arg_from_valist = va_arg(vaarg, char*);
+        oauth_add_param_to_array(&argc, &argv, arg_from_valist);
+#if SAMUEL_DEBUG
+        printf("SAMUEL_DEBUG, arg_from_valist:%s\n", arg_from_valist);
+        printf("SAMUEL_DEBUG, argc:%d\n", argc);
+#endif
+    }
+    va_end(vaarg);
 
-    free(post_qualifier);
-    free(post_content);
 #if SAMUEL_DEBUG
     printf("SAMUEL_DEBUG, before add parameters to array\n");
     for (i=0;i<argc; i++)
