@@ -46,7 +46,8 @@ int main(int argc, char const* argv[])
     plurk_post( &request
                ,&permanent
                ,"POST"            // << invoke method
-               ,mycont
+               //,mycont
+               ,"< ^ ^ >"
                ,"says"            // << ...
                );
 

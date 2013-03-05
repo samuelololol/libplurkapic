@@ -1,5 +1,7 @@
 #include "libplurkapic.h"
 #include <stdarg.h>
+#include <ctype.h>
+
 const char* plurk_url = "http://www.plurk.com/";
 const char* plurk_uri_request = "OAuth/request_token";
 const char* plurk_uri_access = "OAuth/access_token";
@@ -12,6 +14,44 @@ inline static int get_keysecret(const char*, char**, char**);
 inline static int get_response_token(char*, char*, char**, char**);
 inline static int get_verifier(char*, char*, char*, char*, char**);
 inline static int get_access_token(char*, char*, char**, char**, char*);
+inline static void encode(const char *s, char *enc, char *tb);
+inline static char* urlencode(const char* raw);
+
+
+
+// url encode reference from: http://rosettacode.org/wiki/URL_encoding#C
+static char rfc3986[256] = {0};
+static char html5[256] = {0};
+ 
+// url encode reference from: http://rosettacode.org/wiki/URL_encoding#C
+inline void encode(const char *s, char *enc, char *tb)
+{
+    for (; *s; s++) {
+        if (tb[*s]) sprintf(enc, "%c", tb[*s]);
+        else        sprintf(enc, "%%%02X", *s);
+        while (*++enc);
+    }
+}
+ 
+// url encode reference from: http://rosettacode.org/wiki/URL_encoding#C
+char* urlencode(const char* raw)
+{
+    unsigned char url[] = "http://foo bar/";
+    //char enc[sizeof(url) * 3];
+    char* enc = malloc(sizeof(raw) * 3);
+ 
+    int i;
+    for (i = 0; i < 256; i++) {
+        rfc3986[i] = isalnum(i)||i == '~'||i == '-'||i == '.'||i == '_'
+            ? i : 0;
+        html5[i] = isalnum(i)||i == '*'||i == '-'||i == '.'||i == '_'
+            ? i : (i == ' ') ? '+' : 0;
+    }
+ 
+    //encode(url, enc, rfc3986);
+    encode(raw, enc, rfc3986);
+    return enc;
+}
 
 /**
  * @brief string concate
@@ -412,6 +452,8 @@ int plurk_post( key_pair* request
 {
     char* post_qualifier_h ="qualifier=";
     char* post_content_h   ="content=";
+
+    char* encoded_string = urlencode(content);
 
     char* post_qualifier = s_concate(&(post_qualifier_h), &(qualifier));
     char* post_content   = s_concate(&(post_content_h), &(content));
