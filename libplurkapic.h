@@ -35,8 +35,10 @@ int plurk_init(key_pair* req, key_pair* permanent);
 //int plurk_logout(key_pair* permanent);
 int plurk_post( key_pair* request
                ,key_pair* permanent
+               ,const char* invoke_method
+               ,const char* qualifier
                ,const char* content
-               ,const char* qualifier);
+               );
 
 int plurk_api( key_pair* request
               ,key_pair* permanent

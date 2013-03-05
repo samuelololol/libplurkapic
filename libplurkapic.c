@@ -350,7 +350,7 @@ int plurk_api( key_pair* request
         arg_from_valist = va_arg(vaarg, char*);
         oauth_add_param_to_array(&argc, &argv, arg_from_valist);
 #if SAMUEL_DEBUG
-        printf("SAMUEL_DEBUG, arg_from_valist:%s\n", arg_from_valist);
+        printf("SAMUEL_DEBUG, arg_from_valist: %s\n", arg_from_valist);
         printf("SAMUEL_DEBUG, argc:%d\n", argc);
 #endif
     }
@@ -402,3 +402,30 @@ int plurk_api( key_pair* request
 
     return 0;
 }
+
+int plurk_post( key_pair* request
+               ,key_pair* permanent
+               ,const char* invoke_method
+               ,const char* content
+               ,const char* qualifier
+               )
+{
+    char* post_qualifier_h ="qualifier=";
+    char* post_content_h   ="content=";
+
+    char* post_qualifier = s_concate(&(post_qualifier_h), &(qualifier));
+    char* post_content   = s_concate(&(post_content_h), &(content));
+
+    plurk_api( request
+               ,permanent
+               ,plurk_uri_post    // << API_URI
+               ,invoke_method     // << RESTful method
+               ,2                 // << arg_count
+               ,post_content
+               ,post_qualifier    // << ...
+               );  
+
+    return 0;
+}
+
+
