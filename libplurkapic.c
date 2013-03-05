@@ -1,6 +1,6 @@
 #include "libplurkapic.h"
 #include <stdarg.h>
-#include <ctype.h>
+#include <string.h>
 
 const char* plurk_url = "http://www.plurk.com/";
 const char* plurk_uri_request = "OAuth/request_token";
@@ -17,41 +17,42 @@ inline static int get_access_token(char*, char*, char**, char**, char*);
 inline static void encode(const char *s, char *enc, char *tb);
 inline static char* urlencode(const char* raw);
 
-
-
-// url encode reference from: http://rosettacode.org/wiki/URL_encoding#C
-static char rfc3986[256] = {0};
-static char html5[256] = {0};
- 
-// url encode reference from: http://rosettacode.org/wiki/URL_encoding#C
-inline void encode(const char *s, char *enc, char *tb)
+// reference from:
+// http://www.cnblogs.com/hoodlum1980/archive/2012/05/28/2521500.html
+int URLEncode(const char* str, const int strSize, char* result, const int resultSize)
 {
-    for (; *s; s++) {
-        if (tb[*s]) sprintf(enc, "%c", tb[*s]);
-        else        sprintf(enc, "%%%02X", *s);
-        while (*++enc);
-    }
-}
- 
-// url encode reference from: http://rosettacode.org/wiki/URL_encoding#C
-char* urlencode(const char* raw)
-{
-    unsigned char url[] = "http://foo bar/";
-    //char enc[sizeof(url) * 3];
-    char* enc = malloc(sizeof(raw) * 3);
- 
     int i;
-    for (i = 0; i < 256; i++) {
-        rfc3986[i] = isalnum(i)||i == '~'||i == '-'||i == '.'||i == '_'
-            ? i : 0;
-        html5[i] = isalnum(i)||i == '*'||i == '-'||i == '.'||i == '_'
-            ? i : (i == ' ') ? '+' : 0;
+    int j = 0;//for result index
+    char ch;
+
+    if ((str==NULL) || (result==NULL) || (strSize<=0) || (resultSize<=0)) {
+        return 0;
     }
- 
-    //encode(url, enc, rfc3986);
-    encode(raw, enc, rfc3986);
-    return enc;
+
+    for ( i=0; (i<strSize)&&(j<resultSize); ++i) {
+        ch = str[i];
+        if (((ch>='A') && (ch<'Z')) ||
+            ((ch>='a') && (ch<'z')) ||
+            ((ch>='0') && (ch<'9'))) {
+            result[j++] = ch;
+        } else if (ch == ' ') {
+            result[j++] = '+';
+        } else if (ch == '.' || ch == '-' || ch == '_' || ch == '*') {
+            result[j++] = ch;
+        } else {
+            if (j+3 < resultSize) {
+                sprintf(result+j, "%%%02X", (unsigned char)ch);
+                j += 3;
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    result[j] = '\0';
+    return j;
 }
+
 
 /**
  * @brief string concate
@@ -353,17 +354,8 @@ int plurk_api( key_pair* request
               )
 {
 
-
-
-
     char* request_uri = s_concate(&(plurk_url), &(plurk_uri_request));
-    //char* post_qualifier_hd = "qualifier=";
-    //char* post_qualifier    = s_concate( &(post_qualifier_hd)
-    //                                    ,&(qualifier));
-    //char* post_content_hd   = "content=";
-    //char* post_content      = s_concate( &(post_content_hd)
-    //                                    ,&(content));
-    char* post_url = s_concate( &(plurk_url) ,&(api_uri));
+    char* api_url = s_concate( &(plurk_url) ,&(api_uri));
 
     int argc = 0;
     int i = 0;
@@ -374,7 +366,7 @@ int plurk_api( key_pair* request
     char* reply    = NULL;
     char* postarg  = NULL;
 
-    argc = oauth_split_url_parameters(post_url, &argv);
+    argc = oauth_split_url_parameters(api_url, &argv);
 
 #if SAMUEL_DEBUG
     printf("SAMUEL_DEBUG, before add parameters to array\n");
@@ -410,7 +402,6 @@ int plurk_api( key_pair* request
 
     req_hdr = oauth_serialize_url_sep(argc, 1, argv, ", ", 100);
     req_url = oauth_serialize_url_sep(argc, 0, argv, "&", 1);
-    //req_url = request_token_uri;
     oauth_free_array(&argc, &argv);
 #if SAMUEL_DEBUG
     printf("SAMUEL_DEBUG, req_hdr: %s\n", req_hdr);
@@ -438,7 +429,7 @@ int plurk_api( key_pair* request
     if (req_url)  free(req_url);
     if (http_hdr) free(http_hdr);
     if (postarg)  free(postarg);
-    if (post_url) free(post_url);
+    if (api_url)  free(api_url);
 
     return 0;
 }
@@ -453,7 +444,9 @@ int plurk_post( key_pair* request
     char* post_qualifier_h ="qualifier=";
     char* post_content_h   ="content=";
 
-    char* encoded_string = urlencode(content);
+    //char* buff = malloc(sizeof(char)*201);
+    //memset(buff, '\0', 201);
+    //URLEncode(content, strlen(content), buff, 201);
 
     char* post_qualifier = s_concate(&(post_qualifier_h), &(qualifier));
     char* post_content   = s_concate(&(post_content_h), &(content));
