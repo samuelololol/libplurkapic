@@ -30,7 +30,8 @@ int main(int argc, char const* argv[])
                ,&permanent
                ,"POST"            // << invoke method
                //,"中文 測試 ^.<*y"
-               ,mycont
+               ,"好想睡覺 ^.<*y  #finchurk"
+               //,mycont
                ,"says"            // << ...
                );
 
