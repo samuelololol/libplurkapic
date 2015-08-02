@@ -1,6 +1,0 @@
-
-1. restful get [done]
-2. restful get, return to buffer instead of STDOUT
-3. restful post
-4. restful put
-5. restful delete

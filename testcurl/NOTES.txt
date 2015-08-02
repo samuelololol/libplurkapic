@@ -1,0 +1,15 @@
+
+1. restful get [done]
+2. restful get, return to buffer instead of STDOUT
+3. restful post
+4. restful put
+5. restful delete
+
+
+codeviz compile
+---------------
+
+make CC=/usr/local/gccgraph/bin/gcc test
+genfull
+gengraph -t -s -g full.graph -output-type png -f main #--no-extern--output-layout LR
+
