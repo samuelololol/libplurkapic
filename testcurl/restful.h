@@ -5,10 +5,14 @@
 #include <string.h>
 
 
+struct mystring {
+    char* ptr;
+    size_t len;
+};
+
 int RESTFUL_INIT();
 int RESTFUL_CLEANUP(CURL**);
-int RESTFUL_GET(CURL**, const char*);
+int RESTFUL_GET(CURL**, const char*, struct mystring*);
 
-struct mystring;
 
 #endif
