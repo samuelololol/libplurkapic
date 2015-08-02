@@ -1,9 +1,16 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <curl/curl.h>
 #include <string.h>
+#include "restful.h"
 
 static enum {
     MAX_BUF = 256
+};
+
+struct mystring {
+    char* ptr;
+    size_t len;
 };
 
 int RESTFUL_GET(CURL** curl,const char* url){
@@ -39,19 +46,31 @@ int RESTFUL_CLEANUP(CURL** curl){
 // ==============================
 static int wr_index;
 static char wr_buf[MAX_BUF + 1];
-static size_t write_data(void*, size_t, size_t, void*);
+static size_t write_data (void*, size_t, size_t, struct mystring*);
 
 // CURL_WRITEFUNCTION
-static size_t write_data (void* buffer, size_t size, size_t nmemb, void* userp)
+static size_t write_data (void* ptr, size_t size, size_t nmemb, struct mystring* s)
 {
-    int segsize = size * nmemb;
-    if (wr_index + segsize > MAX_BUF){
-        *(int *)userp = 1;
-        return 0;
+    size_t new_len = s->len + size*nmemb;
+    s->ptr = realloc(s->ptr, new_len+1);
+    if (s->ptr == NULL){
+        fprintf(stderr, "malloc() failed\n");
+        exit(EXIT_FAILURE);
     }
-    memcpy((void *)&wr_buf[wr_index], buffer, segsize);
-    wr_index += segsize;  // update index
-    wr_buf[wr_index] = 0; // null therminate the buffer
-    return segsize;
+    memcpy((s->ptr + s->len), ptr, size*nmemb);
+    s->ptr[new_len] = '\0';
+    s->len = new_len;
+
+    return size*nmemb;
 }
 
+static void init_string(struct mystring *s)
+{
+    s->len = 0;
+    s->ptr = malloc(s->len+1);
+    if (s->ptr = NULL){
+        fprintf(stderr, "malloc() failed\n");
+        exit(EXIT_FAILURE);
+    }
+    s->ptr[0] = '\0';
+}

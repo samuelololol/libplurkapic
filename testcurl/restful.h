@@ -5,9 +5,10 @@
 #include <string.h>
 
 
-CURL* RESTFUL_INIT();
-CURL* RESTFUL_CLEANUP(CURL*);
+int RESTFUL_INIT();
+int RESTFUL_CLEANUP(CURL**);
 int RESTFUL_GET(CURL**, const char*);
 
+struct mystring;
 
 #endif
