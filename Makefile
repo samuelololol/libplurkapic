@@ -4,7 +4,7 @@ DEBUG := -DSAMUEL_DEBUG
 CFLAGS += -ggdb -Wall $(DEBUG)
 LDFLAGS+= -lssl -loauth -lcurl 
 CFLAGS += -I$(JSON_C_DIR)/include/json
-LDFLAGS+= -L$(JSON_C_DIR)/lib -ljson
+LDFLAGS+= -L$(JSON_C_DIR)/lib -ljson-c
 
 all: libplurkapic.o main.o
 	gcc $(CFLAGS) $(LDFLAGS) -o test.out main.o libplurkapic.o

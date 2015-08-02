@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <oauth.h>
-#include <json/json.h>
+#include <json-c/json.h>
 
 
 extern const char* plurk_url;
@@ -46,5 +46,4 @@ int plurk_api( key_pair* request
               ,const char* invoke_method
               ,int arg_count,
               ...);
-
 #endif

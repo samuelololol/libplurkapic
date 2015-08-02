@@ -35,5 +35,6 @@ int main(int argc, char const* argv[])
                ,"says"            // << ...
                );
 
+    plurk_api(&permanent,"/APP/Timeline/plurkAdd","plurk test");
     return 0;
 }

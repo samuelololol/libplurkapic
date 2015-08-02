@@ -463,4 +463,3 @@ int plurk_post( key_pair* request
     return 0;
 }
 
-
