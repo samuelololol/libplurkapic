@@ -19,6 +19,7 @@ int main(){
     RESTFUL_GET(&curl, "http://localhost:8001/tachikoma", (void *)response);
 
     printf("response:\n%s", response->ptr);
+    RESTFUL_STRING_DESTROY(&response);
 
     RESTFUL_CLEANUP(&curl);
     return 0;

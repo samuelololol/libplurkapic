@@ -79,6 +79,16 @@ void RESTFUL_STRING_INIT(struct RESTFUL_STRING **s)
     (*s)->ptr[0] = '\0';
 }
 
+void RESTFUL_STRING_DESTROY(struct RESTFUL_STRING **s)
+{
+    if ( NULL != *s){
+        if ( NULL != (*s)->ptr )
+            free((*s)->ptr);
+        free(*s);
+    }
+}
+
+
 int RESTFUL_INIT(CURL** curl){
     curl_global_init(CURL_GLOBAL_DEFAULT);
     *curl = curl_easy_init();
