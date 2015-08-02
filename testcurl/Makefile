@@ -20,8 +20,13 @@ restful.c: restful.h
 test: $(LIB_TARGET)
 	$(CC) $(CFLAGS) hello.c $(LIB_TARGET) -o $(TEST_TARGET) $(LD)
 
-.PHONY: clean all
+.PHONY: clean all distclean test
 
 clean:
-	rm -rf *.o $(TEST_TARGET) $(LIB_TARGET)
+	rm -rf $(TEST_TARGET) $(LIB_TARGET) *.o
+
+distclean:
+	make clean
+	rm -rf *.png
+
 

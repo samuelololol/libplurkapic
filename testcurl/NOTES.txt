@@ -1,6 +1,7 @@
 
 1. restful get [done]
 2. restful get, return to buffer instead of STDOUT
+   http://stackoverflow.com/a/2329792
 3. restful post
 4. restful put
 5. restful delete
