@@ -7,13 +7,18 @@
 int main(){
     printf("start to surf\n");
     CURL *curl;
-    struct mystring response;
+
+    struct RESTFUL_STRING *response;
+    RESTFUL_STRING_INIT(&response);
+
 
     // init curl
     RESTFUL_INIT(&curl);
 
     // normal processing
-    RESTFUL_GET(&curl, "http://localhost:8001/tachikoma", &response);
+    RESTFUL_GET(&curl, "http://localhost:8001/tachikoma", (void *)response);
+
+    printf("response:\n%s", response->ptr);
 
     RESTFUL_CLEANUP(&curl);
     return 0;
