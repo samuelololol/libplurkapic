@@ -15,7 +15,7 @@ post: $(LIB_TARGET)
 	$(CC) $(CFLAGS) post.c $(LIB_TARGET) -o $@ $(LD)
 
 
-.PHONY: clean all distclean
+.PHONY: clean all distclean post get
 
 clean:
 	rm -rf $(TEST_TARGET)
