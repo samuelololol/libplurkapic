@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -ggdb -I..
 SRCS = get.c post.c
 OBJS = $(SRCS:.c=.o)
-LD = -lcurl -lssl
+LD = -lcurl -lssl 
 LIB_TARGET = ../librestful.a
 TEST_TARGET = get post
 
