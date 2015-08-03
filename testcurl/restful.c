@@ -4,9 +4,10 @@
 #include <string.h>
 #include "restful.h"
 
-static enum {
-    MAX_BUF = 256
-};
+//static enum {
+//    MAX_BUF = 256
+//};
+#define MAX_BUF 256
 
 static int wr_index;
 static char wr_buf[MAX_BUF + 1];
@@ -42,15 +43,15 @@ void init_RESTFUL_STRING(struct RESTFUL_STRING *s)
 
 
 // ==============================
-int RESTFUL_GET(CURL** curl,const char* url, void* data){
+int RESTFUL_GET(CURL** curl,const char* url, void* response){
     CURLcode res;
     curl_easy_setopt(*curl, CURLOPT_URL, url);
     curl_easy_setopt(*curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
     curl_easy_setopt(*curl, CURLOPT_FOLLOWLOCATION, 1L);
-    if (NULL != data)
+    if (NULL != response)
     {
         curl_easy_setopt(*curl, CURLOPT_WRITEFUNCTION, write_data);
-        curl_easy_setopt(*curl, CURLOPT_WRITEDATA, data);
+        curl_easy_setopt(*curl, CURLOPT_WRITEDATA, response);
     }
     res = curl_easy_perform(*curl);
     if (res != CURLE_OK){
@@ -59,6 +60,18 @@ int RESTFUL_GET(CURL** curl,const char* url, void* data){
     }
     return 0;
 }
+int RESTFUL_POST(CURL** curl,const char* url, void* request, void* response){
+    CURLcode res;
+    return 0;
+}
+
+
+
+
+
+
+
+
 
 
 

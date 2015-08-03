@@ -1,29 +1,28 @@
 CC = gcc
-CFLAGS = -Wall -ggdb
+CFLAGS = -Wall -ggdb -Wno-unused-variable
 SRCS = restful.c
 OBJS = $(SRCS:.c=.o)
 LD = -lcurl -lssl
-LIB_TARGET = librestful.a
-TEST_TARGET = http
+TARGET = librestful.a
 
-all: $(LIB_TARGET)
+all: $(TARGET)
 
-$(LIB_TARGET): $(OBJS)
-	ar -rc $(LIB_TARGET) $(OBJS)
-	ranlib $(LIB_TARGET)
+$(TARGET): $(OBJS)
+	ar -rc $(TARGET) $(OBJS)
+	ranlib $(TARGET)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $< 
+restful.o: restful.c restful.h
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 restful.c: restful.h
 
-#test: $(LIB_TARGET)
-#	$(CC) $(CFLAGS) get.c $(LIB_TARGET) -o $(TEST_TARGET) $(LD)
+test: $(TARGET)
+	make -C test all
 
-.PHONY: clean all distclean #test
+.PHONY: clean all distclean test
 
 clean:
-	rm -rf $(TEST_TARGET) $(LIB_TARGET) *.o
+	rm -rf $(TARGET) *.o
 
 distclean:
 	make -C test clean
