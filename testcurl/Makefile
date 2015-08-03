@@ -17,15 +17,16 @@ $(LIB_TARGET): $(OBJS)
 
 restful.c: restful.h
 
-test: $(LIB_TARGET)
-	$(CC) $(CFLAGS) hello.c $(LIB_TARGET) -o $(TEST_TARGET) $(LD)
+#test: $(LIB_TARGET)
+#	$(CC) $(CFLAGS) get.c $(LIB_TARGET) -o $(TEST_TARGET) $(LD)
 
-.PHONY: clean all distclean test
+.PHONY: clean all distclean #test
 
 clean:
 	rm -rf $(TEST_TARGET) $(LIB_TARGET) *.o
 
 distclean:
+	make -C test clean
 	make clean
 	rm -rf *.png
 
