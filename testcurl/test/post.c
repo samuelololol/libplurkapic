@@ -11,7 +11,7 @@ int main(){
     printf("start to surf\n");
     CURL *curl;
 
-    struct RESTFUL_STRING *response;
+    RESTFUL_STRING *response;
     RESTFUL_STRING_INIT(&response);
 
     //char* request = "this is requests";

@@ -3,12 +3,15 @@
 #include <string.h>
 #include "restful.h"
 
+//const char* url = "http://localhost:8001/tachikoma";
+const char* url = "http://www.plurk.com/samuelololol";
+
 
 int main(){
     printf("start to surf\n");
     CURL *curl;
 
-    struct RESTFUL_STRING *response;
+    RESTFUL_STRING *response;
     RESTFUL_STRING_INIT(&response);
 
 
@@ -16,7 +19,7 @@ int main(){
     RESTFUL_INIT(&curl);
 
     // normal processing
-    RESTFUL_GET(&curl, "http://localhost:8001/tachikoma", (void *)response);
+    RESTFUL_GET(&curl, url, (void *)response);
 
     printf("response:\n%s", response->ptr);
     RESTFUL_STRING_DESTROY(&response);

@@ -5,13 +5,13 @@
 #include <string.h>
 
 
-struct RESTFUL_STRING {
+typedef struct _RESTFUL_STRING {
     char* ptr;
     size_t len;
-};
+}RESTFUL_STRING;
 
-void RESTFUL_STRING_INIT(struct RESTFUL_STRING**);
-void RESTFUL_STRING_DESTROY(struct RESTFUL_STRING **);
+void RESTFUL_STRING_INIT(RESTFUL_STRING**);
+void RESTFUL_STRING_DESTROY(RESTFUL_STRING **);
 int RESTFUL_INIT();
 int RESTFUL_CLEANUP(CURL**);
 int RESTFUL_GET(CURL** curl, const char* url, void* response);

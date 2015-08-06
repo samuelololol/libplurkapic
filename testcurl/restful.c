@@ -11,10 +11,10 @@
 
 static int wr_index;
 static char wr_buf[MAX_BUF + 1];
-static size_t write_data (void* ptr, size_t size, size_t nmemb, struct RESTFUL_STRING* s);
+static size_t write_data (void* ptr, size_t size, size_t nmemb, RESTFUL_STRING* s);
 
 // CURL_WRITEFUNCTION
-static size_t write_data (void* ptr, size_t size, size_t nmemb, struct RESTFUL_STRING* s)
+static size_t write_data (void* ptr, size_t size, size_t nmemb, RESTFUL_STRING* s)
 {
     size_t new_len = s->len + size*nmemb;
     s->ptr = realloc(s->ptr, new_len+1);
@@ -30,7 +30,7 @@ static size_t write_data (void* ptr, size_t size, size_t nmemb, struct RESTFUL_S
     return size*nmemb;
 }
 
-void init_RESTFUL_STRING(struct RESTFUL_STRING *s)
+void init_RESTFUL_STRING(RESTFUL_STRING *s)
 {
     s->len = 0;
     s->ptr = malloc(s->len+1);
@@ -76,9 +76,9 @@ int RESTFUL_POST(CURL** curl,const char* url, void* request, void* response){
 
 
 
-void RESTFUL_STRING_INIT(struct RESTFUL_STRING **s)
+void RESTFUL_STRING_INIT(RESTFUL_STRING **s)
 {
-    (*s) = (struct RESTFUL_STRING*) malloc(sizeof(struct RESTFUL_STRING));
+    (*s) = (RESTFUL_STRING*) malloc(sizeof(RESTFUL_STRING));
     if (*s == NULL){
         fprintf(stderr, "malloc() failed\n");
         exit(EXIT_FAILURE);
@@ -92,7 +92,7 @@ void RESTFUL_STRING_INIT(struct RESTFUL_STRING **s)
     (*s)->ptr[0] = '\0';
 }
 
-void RESTFUL_STRING_DESTROY(struct RESTFUL_STRING **s)
+void RESTFUL_STRING_DESTROY(RESTFUL_STRING **s)
 {
     if ( NULL != *s){
         if ( NULL != (*s)->ptr )
